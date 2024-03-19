@@ -76,7 +76,10 @@ public class Authenticate {
     		System.out.println("**************************");
     		System.out.println("");
     		
-            accountMenu(scanner, username);
+    		User user = users.get(username);
+    		user.getCart().loadCart("/Users/curt.petty/eclipse-workspace/ShoppingSystem/src/depaul/edu/" + username + ".txt");
+            
+    		accountMenu(scanner, username);
             return true;
         } else {
         	System.out.println("");
@@ -101,8 +104,9 @@ public class Authenticate {
 	            System.out.println("1 - View Account Info");
 	            System.out.println("2 - Browse catalog");
 	            System.out.println("3 - View Cart");
-	            System.out.println("4 - Checkout");
-	            System.out.println("5 - Logout");
+	            System.out.println("4 - Clear Cart");
+	            System.out.println("5 - Checkout");
+	            System.out.println("6 - Logout");
 	            System.out.println("");
 	            System.out.print("Enter an option to proceed: ");
 	        } else {
@@ -125,16 +129,20 @@ public class Authenticate {
 		        	viewCart(scanner, loggedInUser);
 		        	break;
 		        case 4:
+		        	loggedInUser.getCart().clearCart();
+		        	break;
+		        case 5:
 		        	System.out.println("--------");
 		        	System.out.println("Checkout");
 		        	System.out.println("--------");
 		        	break;
-		        case 5:
+		        case 6:
 		        	System.out.println("");
 		        	System.out.println("***********");
 		        	System.out.println("Logging out");
 		        	System.out.println("***********");
 		        	System.out.println("");
+		        	loggedInUser.getCart().saveCart("/Users/curt.petty/eclipse-workspace/ShoppingSystem/src/depaul/edu/" + username + ".txt");
 		        	continueLoop = false;
 		        	break;
 			}

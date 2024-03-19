@@ -1,5 +1,6 @@
 package depaul.edu;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,47 @@ public class Cart {
 	public Cart() {
 		items = new HashMap<>();
 	}
+	
+	public void saveCart(String filename) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+                Product product = entry.getKey();
+                int quantity = entry.getValue();
+                writer.write(product.getName() + "," + product.getDescription() + "," + product.getSku() + ","+ product.getPrice() + "," + quantity);
+                writer.newLine();
+            }
+            //System.out.println("Cart data saved to file: " + filename);
+        } catch (IOException e) {
+            System.err.println("Error saving cart data to file: " + e.getMessage());
+        }
+	}
+	
+	public void loadCart(String filename) {
+		File file = new File(filename);
+		if (file.exists()) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+	            String line;
+	            while ((line = reader.readLine()) != null) {
+	                String[] parts = line.split(",");
+	                if (parts.length == 5) {
+	                    String name = parts[0];
+	                    String description = parts[1];
+	                    String sku = parts[2];
+	                    double price = Double.parseDouble(parts[3]);
+	                    int quantity = Integer.parseInt(parts[4]);
+	                    
+	                    Product product = new Product(name, description, sku, price);
+	                    items.put(product, quantity);
+	                } else {
+	                    System.out.println("Invalid format in cart data file: " + line);
+	                }
+	            }
+	            //System.out.println("Cart data loaded from file: " + filename);
+	        } catch (IOException | NumberFormatException e) {
+	            System.err.println("Error loading cart data from file: " + e.getMessage());
+	        }
+		} 
+    }
 	
 	public void addProduct(Product product, int quantity) {
 		System.out.println("");
@@ -42,6 +84,15 @@ public class Cart {
 		 System.out.println("");
 	 }
 	 
+	public void clearCart() {
+		items.clear();
+		System.out.println("");
+		System.out.println("------------");
+		System.out.println("CART CLEARED");
+		System.out.println("------------");
+		System.out.println("");
+	}
+	
 	public double calculateTotalPrice() {
 		 double totalPrice = 0;
 		 for (Map.Entry<Product, Integer> entry : items.entrySet()) {
