@@ -9,3 +9,5 @@ How to launch the Shopping System application
 3) From a terminal prompt, navigate to the decompressed application folder
 4) Change directoreis to "bin"
 5) Run the application by running the following command, "java depaul.edu.MainClass"
+
+The application is pretty self explanatory from there!
