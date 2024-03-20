@@ -13,7 +13,7 @@ import java.util.Map;
 public class UserAccess {
 	private Map<String, User> users;
 	String currentDirectory = System.getProperty("user.dir");
-    String credentialsPath = currentDirectory + "/src/depaul/edu" + File.separator + "credentials.txt";
+    String credentialsPath = currentDirectory + File.separator + "credentials.txt";
 	
 	public UserAccess() {
 		users = new HashMap<>();

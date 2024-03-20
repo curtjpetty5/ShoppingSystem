@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Catalog {
 	private List<Product> catalog;
 	String currentDirectory = System.getProperty("user.dir");
-    private String catalogPath = currentDirectory + "/src/depaul/edu" + File.separator + "catalog.txt";
+    private String catalogPath = currentDirectory + File.separator + "catalog.txt";
 	private Cart cart;
 	
 	public Catalog(String catalogPath, Cart cart) {
@@ -21,7 +21,7 @@ public class Catalog {
 	}
 	
 	public void loadCatalog() {
-    	try (BufferedReader reader = new BufferedReader(new FileReader(catalogPath))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(catalogPath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");

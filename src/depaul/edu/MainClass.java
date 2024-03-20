@@ -14,7 +14,7 @@ public class MainClass {
 		Registration registration = new Registration(userBase);
 		
 		String currentDirectory = System.getProperty("user.dir");
-        String catalogFilePath = currentDirectory + "/src/depaul/edu" + File.separator + "catalog.txt";
+        String catalogFilePath = currentDirectory + File.separator + "catalog.txt";
 		
         Catalog catalog = new Catalog(catalogFilePath, Cart.getInstance());
 		catalog.loadCatalog();

@@ -19,7 +19,7 @@ public class AccountMenu {
 	public void setLoggedInUser(User user) {
 		this.loggedInUser = user;
 		String currentDirectory = System.getProperty("user.dir");
-        String cartFilePath = currentDirectory + "/src/depaul/edu" + File.separator + user.getUsername() + ".txt";
+        String cartFilePath = currentDirectory + File.separator + user.getUsername() + ".txt";
 		cart.setCartFilePath(cartFilePath);
 		cart.loadCart();
 	}
@@ -71,7 +71,7 @@ public class AccountMenu {
 	        	System.out.println("");
 	        	
 	        	String currentDirectory = System.getProperty("user.dir");
-	            String cartFilePath = currentDirectory + "/src/depaul/edu" + File.separator + loggedInUser.getUsername() + ".txt";
+	            String cartFilePath = currentDirectory + File.separator + loggedInUser.getUsername() + ".txt";
 	        	cart.saveCart(cartFilePath);
 	        	cart.clearCartSilent();
 	        	continueLoop = false;
