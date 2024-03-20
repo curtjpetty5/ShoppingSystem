@@ -6,9 +6,39 @@ import java.util.Map;
 
 public class Cart {
 	private Map<Product, Integer> items;
+	private String cartFilePath;
 	
 	public Cart() {
-		items = new HashMap<>();
+		this.items = new HashMap<>();
+	}
+	
+	public void setCartFilePath(String cartFilePath) {
+		this.cartFilePath = cartFilePath;
+	}
+	
+	public void addProduct(Product product, int quantity) {
+		if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
+        }
+		
+		if (items.containsKey(product)) {
+			items.put(product, items.get(product) + quantity);
+		} else {
+			items.put(product, quantity);
+		}
+   		
+		System.out.println("");
+		System.out.println("Adding QTY " + quantity + " of " + product.getDescription() + " to cart");
+		
+		if (items.containsKey(product)) {
+			items.put(product, items.get(product) + quantity);
+		} else {
+			items.put(product, quantity);
+		}
+		
+		
+		System.out.println("---------------------------------");
+		System.out.println("");
 	}
 	
 	public void saveCart(String filename) {
@@ -19,16 +49,16 @@ public class Cart {
                 writer.write(product.getName() + "," + product.getDescription() + "," + product.getSku() + ","+ product.getPrice() + "," + quantity);
                 writer.newLine();
             }
-            //System.out.println("Cart data saved to file: " + filename);
+            System.out.println("Cart data saved to file: " + filename);
         } catch (IOException e) {
             System.err.println("Error saving cart data to file: " + e.getMessage());
         }
 	}
 	
-	public void loadCart(String filename) {
-		File file = new File(filename);
+	public void loadCart() {
+		File file = new File(cartFilePath);
 		if (file.exists()) {
-			try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(cartFilePath))) {
 	            String line;
 	            while ((line = reader.readLine()) != null) {
 	                String[] parts = line.split(",");
@@ -45,27 +75,13 @@ public class Cart {
 	                    System.out.println("Invalid format in cart data file: " + line);
 	                }
 	            }
-	            //System.out.println("Cart data loaded from file: " + filename);
+	            System.out.println("Cart data loaded from file: " + cartFilePath);
+	            System.out.println("");
 	        } catch (IOException | NumberFormatException e) {
 	            System.err.println("Error loading cart data from file: " + e.getMessage());
 	        }
 		} 
     }
-	
-	public void addProduct(Product product, int quantity) {
-		System.out.println("");
-		if (quantity <= 0) {
-			throw new IllegalArgumentException("Quantity must be greater than zero.");
-		}
-		System.out.println("Adding QTY " + quantity + " of " + product.getDescription() + " to cart");
-		if (items.containsKey(product)) {
-			items.put(product, items.get(product) + quantity);
-		} else {
-			items.put(product, quantity);
-		}
-		System.out.println("---------------------------------");
-		System.out.println("");
-	}
 	
 	public void viewItems() {
 		 System.out.println("");

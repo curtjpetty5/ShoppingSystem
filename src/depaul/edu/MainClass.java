@@ -1,4 +1,6 @@
 package depaul.edu;
+
+import java.io.File;
 import java.util.Scanner;
 
 public class MainClass {
@@ -7,7 +9,21 @@ public class MainClass {
 		Scanner scanner = new Scanner(System.in);
 		boolean continueLoop = true;
 		
-		Authenticate authentication = new Authenticate();
+		UserAccess userBase = new UserAccess();
+		Authenticate authentication = new Authenticate(userBase);
+		Registration registration = new Registration(userBase);
+		
+		String currentDirectory = System.getProperty("user.dir");
+        String catalogFilePath = currentDirectory + "/src/depaul/edu" + File.separator + "catalog.txt";
+        
+        Cart cart = new Cart();
+		
+        Catalog catalog = new Catalog(catalogFilePath, cart);
+		catalog.loadCatalog();
+		
+		Checkout checkout = new Checkout(cart, new OrderLogger());
+		
+		AccountMenu accountMenu = new AccountMenu(catalog, cart, checkout);
 		
 		while (continueLoop) {
 			System.out.println("+-------------------+");
@@ -24,13 +40,11 @@ public class MainClass {
 			switch (begin) {
 		        case 1:
 		        	System.out.println("");
-		    		authentication.authenticateUser(scanner);
+		    		authentication.authenticateUser(scanner, accountMenu);
 		            break;
 		        case 2:
-		        	System.out.println("--------------");
-		        	System.out.println("Create Account");
-		            System.out.println("--------------");
-		            authentication.registerUser(scanner);
+		        	System.out.println("");
+		            registration.registerUser(scanner);
 		        	break;
 		        case 3:
 		        	System.out.println("");
@@ -41,9 +55,6 @@ public class MainClass {
 		        	break;
 			}
 		}
-		
 		scanner.close();
-		
 	}
-
 }

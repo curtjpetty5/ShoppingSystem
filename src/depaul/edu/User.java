@@ -47,6 +47,4 @@ public class User {
 		System.out.println("-----------------------");
 		System.out.println("");
 	}
-	
-
 }
