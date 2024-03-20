@@ -1,1 +1,1 @@
-Football,Nike Adult Football,1001,19.99,2
+Baseball,Rawlings Adult Baseball,1003,9.99,10

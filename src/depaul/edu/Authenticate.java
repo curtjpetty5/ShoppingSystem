@@ -3,6 +3,7 @@ package depaul.edu;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Scanner;
 
@@ -132,9 +133,7 @@ public class Authenticate {
 		        	loggedInUser.getCart().clearCart();
 		        	break;
 		        case 5:
-		        	System.out.println("--------");
-		        	System.out.println("Checkout");
-		        	System.out.println("--------");
+		        	checkout(scanner, username);
 		        	break;
 		        case 6:
 		        	System.out.println("");
@@ -143,6 +142,7 @@ public class Authenticate {
 		        	System.out.println("***********");
 		        	System.out.println("");
 		        	loggedInUser.getCart().saveCart("/Users/curt.petty/eclipse-workspace/ShoppingSystem/src/depaul/edu/" + username + ".txt");
+		        	loggedInUser.getCart().clearCartSilent();
 		        	continueLoop = false;
 		        	break;
 			}
@@ -212,11 +212,60 @@ public class Authenticate {
         }
     	
     	loggedInUserCart.addProduct(productToAdd, quantity);
+    	loggedInUser.getCart().saveCart("/Users/curt.petty/eclipse-workspace/ShoppingSystem/src/depaul/edu/" + loggedInUser.getUsername() + ".txt");
     }
     
     private void viewCart(Scanner scanner, User loggedInUser) {
     	Cart loggedInUserCart = loggedInUser.getCart();
     	loggedInUserCart.viewItems();
+    }
+    
+    private void checkout(Scanner scanner, String username) {
+    	User user = users.get(username);
+        if (user != null) {
+            Cart cart = user.getCart();
+            Map<Product, Integer> items = cart.getItems();
+            if (!items.isEmpty()) {
+                Order order = new Order(username);
+                for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+                    Product product = entry.getKey();
+                    int quantity = entry.getValue();
+                    order.addProduct(product, quantity);
+                }
+                double totalPrice = order.getTotalPrice();
+                System.out.println("");
+                System.out.println("--------------------------------");
+                System.out.println("Processing order for user: " + username);
+                System.out.println("--------------------------------");
+                System.out.println("Ordered items:");
+                for (int i = 0; i < order.getProducts().size(); i++) {
+                    Product product = order.getProducts().get(i);
+                    int quantity = order.getQuantities().get(i);
+                    System.out.println("+ " + product.getName() + " - " + product.getDescription() + " (QTY: " + quantity + ")");
+                }
+                System.out.println("");
+                System.out.println("Total price: $" + totalPrice);
+                System.out.println("");
+                System.out.print("Are you ready to pay? (y/n) ");
+                String continueToPay = scanner.nextLine();
+        		if(continueToPay.equalsIgnoreCase("y")) {
+        			System.out.println("");
+        			System.out.println("PROCEEEDING TO PAYMENT");
+        			System.out.println("");
+        			System.out.println("*****************");
+        			System.out.println("PAYMENT PROCESSED");
+        			System.out.println("*****************");
+        			System.out.println("");
+        			
+        			OrderLogger.logOrder(username, totalPrice);
+        		}
+                cart.clearCartSilent(); // Clear the cart after processing the order
+            } else {
+                System.out.println("Your cart is empty. Please add items before processing the order.");
+            }
+        } else {
+            System.out.println("User not found.");
+        }
     }
 
 }

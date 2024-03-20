@@ -83,6 +83,10 @@ public class Cart {
 		 System.out.println("---------------------------------");
 		 System.out.println("");
 	 }
+	
+	public Map<Product, Integer> getItems() {
+		return items;
+	}
 	 
 	public void clearCart() {
 		items.clear();
@@ -91,6 +95,10 @@ public class Cart {
 		System.out.println("CART CLEARED");
 		System.out.println("------------");
 		System.out.println("");
+	}
+	
+	public void clearCartSilent() {
+		items.clear();
 	}
 	
 	public double calculateTotalPrice() {
