@@ -1,6 +1,6 @@
 package depaul.edu;
 
-public class Product {
+public class Product implements ProductInterface {
 	private String name;
 	private String description;
 	private String sku;
@@ -13,36 +13,23 @@ public class Product {
 		this.price = price;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	@Override
 	public String getSku() {
 		return sku;
 	}
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
+	@Override
 	public double getPrice() {
 		return price;
 	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 }

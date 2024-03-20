@@ -7,9 +7,17 @@ import java.util.Map;
 public class Cart {
 	private Map<Product, Integer> items;
 	private String cartFilePath;
+	private static Cart instance;
 	
-	public Cart() {
+	private Cart() {
 		this.items = new HashMap<>();
+	}
+	
+	public static Cart getInstance() {
+		if(instance == null) {
+			instance = new Cart();
+		}
+		return instance;
 	}
 	
 	public void setCartFilePath(String cartFilePath) {

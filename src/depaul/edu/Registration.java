@@ -28,6 +28,7 @@ public class Registration {
         } else {
             User user = new User(username, password);
         	userBase.addUser(user);
+        	System.out.println("");
             System.out.println("User registered successfully!");
             System.out.println("");
         }

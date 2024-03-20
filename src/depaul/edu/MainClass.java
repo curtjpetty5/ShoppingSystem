@@ -15,15 +15,13 @@ public class MainClass {
 		
 		String currentDirectory = System.getProperty("user.dir");
         String catalogFilePath = currentDirectory + "/src/depaul/edu" + File.separator + "catalog.txt";
-        
-        Cart cart = new Cart();
 		
-        Catalog catalog = new Catalog(catalogFilePath, cart);
+        Catalog catalog = new Catalog(catalogFilePath, Cart.getInstance());
 		catalog.loadCatalog();
 		
-		Checkout checkout = new Checkout(cart, new OrderLogger());
+		Checkout checkout = new Checkout(Cart.getInstance(), new OrderLogger());
 		
-		AccountMenu accountMenu = new AccountMenu(catalog, cart, checkout);
+		AccountMenu accountMenu = new AccountMenu(catalog, Cart.getInstance(), checkout);
 		
 		while (continueLoop) {
 			System.out.println("+-------------------+");

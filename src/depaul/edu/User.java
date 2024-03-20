@@ -12,7 +12,7 @@ public class User {
 		super();
 		this.username = username;
 		this.password = password;
-		this.cart = new Cart();
+		this.cart = Cart.getInstance();
 	}
 
 	public Cart getCart() {
